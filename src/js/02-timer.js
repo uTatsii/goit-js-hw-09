@@ -1,24 +1,47 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-const input = document.querySelector('#datetime-picker');
-const startBtn = document.querySelector('button[data-start');
-const selectedDates = [];
-
-input.addEventListener()
-
+const timer = {
+  dataDays: document.querySelector('span[data-days]'),
+  dataHours: document.querySelector('span[data-hours]'),
+  dataMinutes: document.querySelector('span[data-minutes]'),
+  dataSeconds: document.querySelector('span[data-seconds]'),
+};
+const dateInput = document.querySelector('#datetime-picker');
+const startBtn = document.querySelector('button[data-start]');
+let selectedDate = '';
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
+    selectedDate = selectedDates[0];
+    const currentDate = new Date();
+    if (selectedDate.getTime() <= currentDate.getTime()) {
+      window.alert('Please choose a date in the future');
+    } else {
+      startBtn.disabled = false;
+    }
   },
 };
 
-const calendar = flatpickr(input, options);
+startBtn.disabled = true;
+
+flatpickr(dateInput, options);
+
+startBtn.addEventListener('click', onStartBtnClick);
+
+const { dataDays, dataHours, dataMinutes, dataSeconds } = timer;
+
+function onStartBtnClick() {
+  const selectedDateInMs = selectedDate.getTime();
+  setInterval(() => {
+    const currentTime = Date.now();
+    console.log(convertMs(selectedDateInMs - currentTime));
+  }, 1000);
+  startBtn.disabled = true;
+}
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -36,13 +59,5 @@ function convertMs(ms) {
   // Remaining seconds
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
-  return { days, hours, minutes, seconds };
-}
-
-console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
-
-function addLeadingZero(value) {
-    // padStart
+  return ({ days, hours, minutes, seconds });
 }
