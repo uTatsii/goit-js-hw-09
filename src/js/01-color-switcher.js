@@ -27,6 +27,6 @@ function getRandomHexColor() {
 }
 
 function toggleBtns() {
-  !startBtn.disabled ? (startBtn.disabled = true) : (startBtn.disabled = false);
+  startBtn.disabled ? (startBtn.disabled = false) : (startBtn.disabled = true);
   stopBtn.disabled ? (stopBtn.disabled = false) : (stopBtn.disabled = true);
 }
