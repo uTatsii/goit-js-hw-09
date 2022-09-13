@@ -35,7 +35,7 @@ function updateTimerDataHTML(time) {
   dataSeconds.textContent = padStart(seconds);
 }
 
-function setTimer() {
+function timerTick() {
   const deltaTime = selectedDate.getTime() - Date.now();
   const { days, hours, minutes, seconds } = convertMs(deltaTime);
   let sumTime = days + hours + minutes + seconds;
@@ -50,7 +50,7 @@ function onStartBtnClick() {
   if (selectedDate.getTime() <= Date.now()) {
     return Notify.failure('Please choose a date in the future');
   }
-  intervalId = setInterval(setTimer, 1000);
+  intervalId = setInterval(timerTick, 1000);
   startBtn.disabled = true;
   dateInput.disabled = true;
 }
