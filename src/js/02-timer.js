@@ -10,18 +10,13 @@ const timer = {
 const dateInput = document.querySelector('#datetime-picker');
 const startBtn = document.querySelector('button[data-start]');
 let selectedDate = '';
+let intervalId = null;
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onClose(selectedDates) {
-    selectedDate = selectedDates[0];
-    const currentDate = Date.now();
-    selectedDate.getTime() <= currentDate
-      ? window.alert('Please choose a date in the future')
-      : (startBtn.disabled = false);
-  },
+  onClose,
 };
 
 startBtn.disabled = true;
@@ -35,15 +30,28 @@ const { dataDays, dataHours, dataMinutes, dataSeconds } = timer;
 function onStartBtnClick() {
   const selectedDateInMs = selectedDate.getTime();
   if (selectedDateInMs <= Date.now()) {
-    window.alert('Please choose a date in the future');
+    return window.alert('Please choose a date in the future');
   } else {
-    setInterval(() => {
+    intervalId = setInterval(() => {
       const currentTime = Date.now();
-      console.log(convertMs(selectedDateInMs - currentTime));
+      const deltaTime = selectedDateInMs - currentTime;
+      console.log(convertMs(deltaTime));
+      const { days, hours, minutes, seconds } = convertMs(deltaTime);
+      let sumTime = seconds + minutes + hours + days;
+      if (sumTime <= 0) {
+        clearInterval(intervalId);
+      };
+      dataDays.textContent = days;
+      dataHours.textContent = padStart(hours);
+      dataMinutes.textContent = padStart(minutes);
+      dataSeconds.textContent = padStart(seconds);
     }, 1000);
     startBtn.disabled = true;
+    dateInput.disabled = true;
   }
 }
+
+// function 
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -63,3 +71,15 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
+
+function onClose(selectedDates) {
+    selectedDate = selectedDates[0];
+    const currentDate = Date.now();
+    selectedDate.getTime() <= currentDate
+      ? window.alert('Please choose a date in the future')
+      : (startBtn.disabled = false);
+};
+
+function padStart(n) {
+  return String(n).padStart(2, 0);
+};
