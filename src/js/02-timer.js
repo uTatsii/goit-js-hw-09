@@ -17,12 +17,10 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     selectedDate = selectedDates[0];
-    const currentDate = new Date();
-    if (selectedDate.getTime() <= currentDate.getTime()) {
-      window.alert('Please choose a date in the future');
-    } else {
-      startBtn.disabled = false;
-    }
+    const currentDate = Date.now();
+    selectedDate.getTime() <= currentDate
+      ? window.alert('Please choose a date in the future')
+      : (startBtn.disabled = false);
   },
 };
 
@@ -36,11 +34,15 @@ const { dataDays, dataHours, dataMinutes, dataSeconds } = timer;
 
 function onStartBtnClick() {
   const selectedDateInMs = selectedDate.getTime();
-  setInterval(() => {
-    const currentTime = Date.now();
-    console.log(convertMs(selectedDateInMs - currentTime));
-  }, 1000);
-  startBtn.disabled = true;
+  if (selectedDateInMs <= Date.now()) {
+    window.alert('Please choose a date in the future');
+  } else {
+    setInterval(() => {
+      const currentTime = Date.now();
+      console.log(convertMs(selectedDateInMs - currentTime));
+    }, 1000);
+    startBtn.disabled = true;
+  }
 }
 
 function convertMs(ms) {
@@ -59,5 +61,5 @@ function convertMs(ms) {
   // Remaining seconds
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
-  return ({ days, hours, minutes, seconds });
+  return { days, hours, minutes, seconds };
 }
