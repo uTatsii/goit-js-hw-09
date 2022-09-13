@@ -37,9 +37,7 @@ function updateTimerDataHTML(time) {
 
 function timerTick() {
   const deltaTime = selectedDate.getTime() - Date.now();
-  const { days, hours, minutes, seconds } = convertMs(deltaTime);
-  let sumTime = days + hours + minutes + seconds;
-  if (sumTime <= 0) {
+  if (deltaTime < 1000) {
     clearInterval(intervalId);
     dateInput.disabled = false;
   }
