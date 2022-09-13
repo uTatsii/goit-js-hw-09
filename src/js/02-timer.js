@@ -40,6 +40,7 @@ function setTimer() {
   let sumTime = days + hours + minutes + seconds;
   if (sumTime <= 0) {
     clearInterval(intervalId);
+    dateInput.disabled = false;
   }
   timerDataHTML(deltaTime);
 }
