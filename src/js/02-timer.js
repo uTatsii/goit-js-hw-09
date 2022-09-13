@@ -27,7 +27,7 @@ startBtn.disabled = true;
 
 startBtn.addEventListener('click', onStartBtnClick);
 
-function timerDataHTML(time) {
+function updateTimerDataHTML(time) {
   const { days, hours, minutes, seconds } = convertMs(time);
   dataDays.textContent = padStart(days);
   dataHours.textContent = padStart(hours);
@@ -43,7 +43,7 @@ function setTimer() {
     clearInterval(intervalId);
     dateInput.disabled = false;
   }
-  timerDataHTML(deltaTime);
+  updateTimerDataHTML(deltaTime);
 }
 
 function onStartBtnClick() {
