@@ -29,7 +29,7 @@ startBtn.addEventListener('click', onStartBtnClick);
 
 function timerDataHTML(time) {
   const { days, hours, minutes, seconds } = convertMs(time);
-  dataDays.textContent = days;
+  dataDays.textContent = padStart(days);
   dataHours.textContent = padStart(hours);
   dataMinutes.textContent = padStart(minutes);
   dataSeconds.textContent = padStart(seconds);
