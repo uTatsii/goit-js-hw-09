@@ -24,7 +24,7 @@ function createPromise(position, delay) {
     const shouldResolve = Math.random() > 0.3;
     setTimeout(() => {
       if (shouldResolve) {
-        resolve(`✅ Fulfilled promise ${position} in ${delay}ms`); 
+        resolve(`✅ Fulfilled promise ${position} in ${delay}ms`);
       }
       reject(`❌ Rejected promise ${position} in ${delay}ms`);
     }, delay);
@@ -32,7 +32,7 @@ function createPromise(position, delay) {
 }
 
 function onFulfilled(result) {
- Notify.success(result);
+  Notify.success(result);
 }
 
 function onRejected(error) {
