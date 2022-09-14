@@ -13,7 +13,7 @@ function onFormSubmit(e) {
   let amount = parseInt(amountEl.value);
 
   for (let i = 0; i < amount; i += 1) {
-    position = i + 1;
+    let position = i + 1;
     createPromise(position, delay).then(onFulfilled).catch(onRejected);
     delay += delayStep;
   }
